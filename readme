@@ -1,0 +1,50 @@
+This is a fork of the Meraki Provision Sites script. It adds the ability to provision
+cellular gateway networks along, with the others. It also adds a tracking tag to execute seprate scripts like mod-mx-ip
+to newly created sites.
+
+ This is a Python 3 script to provision template-based networks with manually defined VLAN subnets
+ to Meraki dashboard.
+
+Syntax:
+  python provision_sites.py -k <api key> -o <org name> -i <input file> [-n <net type> -u <update mode>]
+
+Mandatory parameters:
+  -k <api key>          : Your Meraki Dashboard API key
+  -o <org name>         : The name of the dashboard organization you want to provision the sites into
+  -i <input file>       : Name of the CSV file containing info for the networks to be created
+
+Optional parameters:
+  -n <net type>         : Product types to create networks for. Must match templates used. Valid options:
+                            -n appliance                            MX/Z3 appliances only (default)
+                            -n appliance-wireless                   MX/Z3 appliances and MR Wi-Fi access points
+                            -n appliance-switch                     MX/Z3 appliances and MS switches
+                            -n appliance-wireless-switch            MX/Z3 appliances, MR Wi-Fi APs and MS switches
+                            -n appliance-wireless-switch-cellular   MX/Z3 appliances, MR Wi-Fi APs, MS switches, and MGs
+
+  -u <update mode>      : Whether to update existing or fail script if the organization already contains networks
+                           with names that match the ones in the input file. Valid forms:
+                            -u fail                       Interrupts script if network is not new (default)
+                            -u update                     Attempts to update existing networks to match input file
+
+Usage example:
+  python provision_sites.py -k 1234 -o "Big Industries Inc" -i site_info.csv
+
+Example input CSV file and CSV generator Excel sheet here:
+  https://github.com/meraki/automation-scripts/tree/master/provision_sites
+
+Required Python 3 modules:
+  Requests     : http://docs.python-requests.org
+
+  After installing Python, you can install these additional modules using pip with the following commands:
+    pip install requests
+
+Notes:
+  * Depending on your operating system, the commands for python and pip may be "python3" and "pip3" instead
+  * Use double quotes to enter names containing spaces in the Windows command line
+  * For the script to work, VLANs to be modified will need to be set to "unique" subnetting in dashboard
+  * The script executes most configuration tasks as action batches for scalability. If one task fails, its
+     whole batch will fail with it. Refer to the script's command line output for which tasks have been grouped
+     together as batches and whether executing a batch has produced errors
+  * Including the location (street address) of your network to the input file will result in devices being
+     repositioned on the world map to match this address. If you wish to prevent this for a network, leave
+     this cell blank
