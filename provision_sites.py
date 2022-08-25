@@ -75,8 +75,6 @@ LAST_MERAKI_REQUEST         = datetime.datetime.now()   #used by merakiRequestTh
 
 # PATCH: MEGA PROXY FQDN IS DEPRECATED
 API_BASE_URL                = 'https://api.meraki.com/api/v1'
-API_BASE_URL_MEGA_PROXY     = 'https://api.meraki.com/api/v1'
-API_BASE_URL_NO_MEGA        = 'https://api.meraki.com/api/v0'
 ACTION_BATCH_QUEUE          = []
 
 
